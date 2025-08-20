@@ -41,6 +41,12 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
+
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
+    implementation("com.warrenstrange:googleauth:1.5.0")
+    runtimeOnly("com.h2database:h2")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
 	testImplementation("org.springframework.security:spring-security-test")
