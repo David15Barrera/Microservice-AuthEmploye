@@ -4,7 +4,7 @@ package com.serviceAuth.authService.user.infrastructure.inputadapter.rest;
 import com.serviceAuth.authService.common.infrastructure.anotation.WebAdapter;
 import com.serviceAuth.authService.user.application.ports.input.CreatingUserEmployeeInputPort;
 import com.serviceAuth.authService.user.application.usecase.createuseremployee.CreateUserEmployeeDto;
-import com.serviceAuth.authService.user.domain.model.UserEmployee;
+import com.serviceAuth.authService.user.domain.model.UserEmployeeEntityDomain;
 import com.serviceAuth.authService.user.infrastructure.inputadapter.dto.UserEmployeeRequest;
 import com.serviceAuth.authService.user.infrastructure.inputadapter.dto.UserEmployeeResponseDto;
 import com.serviceAuth.authService.user.infrastructure.inputadapter.mapper.UserEmployeeMapper;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("v1/user/employee/auth")
+@RequestMapping("v1/auth/employee")
 @WebAdapter
 @RequiredArgsConstructor
 public class UserEmployeeControllerAdapter {
@@ -32,7 +32,7 @@ public class UserEmployeeControllerAdapter {
     public ResponseEntity<UserEmployeeResponseDto> creatRegisterUserEmployee(@RequestBody @Valid UserEmployeeRequest createUserRequest) {
         CreateUserEmployeeDto objectAdapterFromToDomain = createUserRequest.toDomain();
 
-        UserEmployee userEmployee = this.creatingUserEmployeeInputPort.createUserEmployee(objectAdapterFromToDomain);
+        UserEmployeeEntityDomain userEmployee = this.creatingUserEmployeeInputPort.createUserEmployee(objectAdapterFromToDomain);
 
         UserEmployeeResponseDto userEmployeeResponse = userEmployeeMapper.toResponseDto(userEmployee);
 

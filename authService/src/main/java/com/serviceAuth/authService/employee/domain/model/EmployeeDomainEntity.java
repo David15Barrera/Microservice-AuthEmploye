@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-public class Employee {
+public class EmployeeDomainEntity {
 
     private UUID id;
     private String fullName;
@@ -22,7 +22,7 @@ public class Employee {
     private UUID hotelId;
     private UUID restaurantId;
 
-    public Employee(UUID id, String fullName, String cui, String phone, String email, String jobPosition, BigDecimal salary, String address, UUID hotelId, UUID restaurantId) {
+    public EmployeeDomainEntity(UUID id, String fullName, String cui, String phone, String email, String jobPosition, BigDecimal salary, String address, UUID hotelId, UUID restaurantId) {
         this.id = id;
         this.fullName = fullName;
         this.cui = cui;
@@ -33,9 +33,10 @@ public class Employee {
         this.address = address;
         this.hotelId = hotelId;
         this.restaurantId = restaurantId;
+        this.validate();
     }
 
-    public Employee(String fullName, String cui, String phone, String email, String jobPosition, BigDecimal salary, String address, UUID hotelId, UUID restaurantId) {
+    public EmployeeDomainEntity(String fullName, String cui, String phone, String email, String jobPosition, BigDecimal salary, String address, UUID hotelId, UUID restaurantId) {
         this.fullName = fullName;
         this.cui = cui;
         this.phone = phone;
@@ -45,6 +46,7 @@ public class Employee {
         this.address = address;
         this.hotelId = hotelId;
         this.restaurantId = restaurantId;
+        this.validate();
     }
 
     private void validate() {
@@ -52,16 +54,23 @@ public class Employee {
 
         // TODO: mas validaciones de dominio.
 
-        if (this.restaurantId == null && this.hotelId == null) {
-            throw new EntityConflictUserType("El empleado debe estar asignado a un retaurante o un hotel");
-        }
+        if (!jobPosition.equalsIgnoreCase("GERENTE")){
+            if (this.restaurantId == null && this.hotelId == null) {
+                throw new EntityConflictUserType("El empleado debe estar asignado a un retaurante o un hotel");
+            }
 
-        if (this.restaurantId != null && this.hotelId != null) {
-            throw new EntityConflictUserType("El empleado solo puede estar asignado a un hoter o aun restaurente, no los dos a la vez");
+            if (this.restaurantId != null && this.hotelId != null) {
+                throw new EntityConflictUserType("El empleado solo puede estar asignado a un hoter o aun restaurente, no los dos a la vez");
+            }
+
         }
 
         if (!(this.salary.compareTo(BigDecimal.ZERO)>0)){
             throw new InvalidConfigurationException("El salario no debe ser mayor a cero");
         }
+    }
+
+    public boolean isAssignedToHotel() {
+        return this.hotelId != null;
     }
 }

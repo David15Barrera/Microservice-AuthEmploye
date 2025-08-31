@@ -21,7 +21,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor(access = PRIVATE)
-public class UserDBEntity {
+public class    UserDBEntity {
 
     @Id
     @GeneratedValue

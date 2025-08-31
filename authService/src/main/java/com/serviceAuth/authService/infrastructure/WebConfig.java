@@ -48,7 +48,7 @@ class CurrentUserArgumentResolver implements HandlerMethodArgumentResolver {
         String subject = authentication.getName();
         Class<?> dtoType = parameter.getParameterType();
         if (dtoType.equals(UserDBEntity.class)) {
-            throw new IllegalArgumentException("La clase UserEntity no puede ser utilizada como argumento");
+            throw new IllegalArgumentException("La clase UserEntity no puede ser utilizada");
         }
         return userDBRepository.findUnknownById(Long.parseLong(subject), dtoType).orElseThrow();
     }

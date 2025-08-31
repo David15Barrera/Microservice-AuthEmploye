@@ -1,10 +1,9 @@
 package com.serviceAuth.authService.employee.application.ports.output;
 
-
-import com.serviceAuth.authService.employee.domain.model.Employee;
+import com.serviceAuth.authService.employee.domain.model.EmployeeDomainEntity;
 
 import java.util.Optional;
 
 public interface FindingEmployeeByCuiOutputPort {
-    Optional<Employee> findByEmployeeByCui(String cui);
+    Optional<EmployeeDomainEntity> findByEmployeeByCui(String cui);
 }

@@ -1,9 +1,8 @@
 package com.serviceAuth.authService.user.application.ports.output.persistence;
 
-
-import com.serviceAuth.authService.employee.domain.model.Employee;
-import com.serviceAuth.authService.user.domain.model.UserEmployee;
+import com.serviceAuth.authService.employee.domain.model.EmployeeDomainEntity;
+import com.serviceAuth.authService.user.domain.model.UserEmployeeEntityDomain;
 
 public interface StoringUserEmployeeOutputPort {
-    UserEmployee save(UserEmployee userEmployee, Employee employee);
+    UserEmployeeEntityDomain save(UserEmployeeEntityDomain userEmployee, EmployeeDomainEntity employee);
 }

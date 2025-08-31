@@ -1,6 +1,5 @@
 package com.serviceAuth.authService.user.infrastructure.inputadapter.dto;
 
-
 import com.serviceAuth.authService.user.domain.model.Role;
 import lombok.Builder;
 

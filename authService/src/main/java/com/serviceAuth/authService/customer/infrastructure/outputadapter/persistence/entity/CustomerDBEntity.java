@@ -2,7 +2,10 @@ package com.serviceAuth.authService.customer.infrastructure.outputadapter.persis
 
 import com.serviceAuth.authService.user.infrastructure.outputadapter.persistence.entity.UserDBEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,45 +13,39 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@Entity(name = "customer")
+@Entity
 @Table(name = "customer", schema = "identity")
 @Data
-@Builder(toBuilder = true)
-@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor(access = PRIVATE)
+@AllArgsConstructor
+@Builder
 public class CustomerDBEntity {
-
     @Id
-    @GeneratedValue
-    @Column(columnDefinition = "UUID DEFAULT uuid_generate_v4()")
+    @Column(columnDefinition = "uuid")
     private UUID id;
 
-    @NonNull
-    @Column(nullable = false)
+    @PrePersist
+    public void prePersist() {
+        if (id == null) id = UUID.randomUUID();
+    }
+
+    @Column(nullable = false, length = 150)
     private String fullName;
 
-    @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 30)
     private String cui;
 
-    @NonNull
-    @Column(nullable = false)
+    @Column(length = 20)
     private String phone;
 
-    @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, length = 250)
     private String address;
 
-    @Builder.Default
-    private Integer loyaltyPoints = 0;
+    @Column
+    private Integer loyaltyPoints;
 
     @OneToMany(mappedBy = "customer")
     private Set<UserDBEntity> users;
@@ -58,5 +55,4 @@ public class CustomerDBEntity {
 
     @UpdateTimestamp
     private Instant updatedAt;
-
 }

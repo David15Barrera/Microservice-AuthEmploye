@@ -1,48 +1,61 @@
 package com.serviceAuth.authService.employee.infrastructure.outputadapter.persistence;
 
-
 import com.serviceAuth.authService.common.infrastructure.anotation.PersistenceAdapter;
-import com.serviceAuth.authService.employee.application.ports.output.FindingEmployeeByCuiOutputPort;
-import com.serviceAuth.authService.employee.application.ports.output.FindingEmployeeByEmailOutputPort;
-import com.serviceAuth.authService.employee.application.ports.output.StoringEmployeeOutputPort;
-import com.serviceAuth.authService.employee.domain.model.Employee;
+import com.serviceAuth.authService.employee.application.ports.output.*;
+import com.serviceAuth.authService.employee.domain.model.EmployeeDomainEntity;
 import com.serviceAuth.authService.employee.infrastructure.outputadapter.persistence.entity.EmployeeDBEntity;
 import com.serviceAuth.authService.employee.infrastructure.outputadapter.persistence.mapper.EmployeeMapper;
 import com.serviceAuth.authService.employee.infrastructure.outputadapter.persistence.repository.EmployeeDBRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class EmployeeRepositoryOutputAdapter implements FindingEmployeeByEmailOutputPort, FindingEmployeeByCuiOutputPort, StoringEmployeeOutputPort {
+public class EmployeeRepositoryOutputAdapter implements FindingEmployeeByEmailOutputPort, FindingEmployeeByCuiOutputPort,
+        StoringEmployeeOutputPort, FindingAllEmployeesNoMangerOutputPort, FindingAllEmployeesOutputPort {
 
     private final EmployeeDBRepository employeeDBRepository;
     private final EmployeeMapper employeeMapper;
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Employee> findByEmployeeByEmail(String email) {
+    public Optional<EmployeeDomainEntity> findByEmployeeByEmail(String email) {
         return this.employeeDBRepository.findByEmail(email)
                 .map(employeeMapper::toDomain);
     }
 
     @Override
     @Transactional
-    public Employee save(Employee employee) {
+    public EmployeeDomainEntity save(EmployeeDomainEntity employee) {
 
         EmployeeDBEntity employeeDBEntity = this.employeeDBRepository.save(this.employeeMapper.toDBEntity(employee));
 
-        Employee employeeSaved = this.employeeMapper.toDomain(employeeDBEntity);
-
-        return employeeSaved;
+        return this.employeeMapper.toDomain(employeeDBEntity);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Employee> findByEmployeeByCui(String cui) {
+    public Optional<EmployeeDomainEntity> findByEmployeeByCui(String cui) {
         return this.employeeDBRepository.findByCui(cui)
                 .map(employeeMapper::toDomain);
+    }
+
+    @Override
+    public List<EmployeeDomainEntity> findAllEmployeesNoManger() {
+        return this.employeeDBRepository.findAllByJobPositionNot("GERENTE")
+                .stream()
+                .map(employeeMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<EmployeeDomainEntity> findAllEmployees() {
+        return this.employeeDBRepository.findAll()
+                .stream()
+                .map(employeeMapper::toDomain)
+                .toList();
     }
 }

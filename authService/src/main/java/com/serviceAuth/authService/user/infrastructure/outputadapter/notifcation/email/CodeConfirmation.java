@@ -18,7 +18,7 @@ public class CodeConfirmation implements GenerateCodeConfirm, ConfirmCode, Exist
     private final ConcurrentMap<String, String> emailConfirmationCodes;
 
     @Override
-    public boolean confirmCode(String email) {
+    public boolean confirmCode(String email, String code) {
         emailConfirmationCodes.remove(email);
         return true;
     }

@@ -1,16 +1,16 @@
 package com.serviceAuth.authService.employee.infrastructure.outputadapter.persistence.mapper;
 
-import com.serviceAuth.authService.employee.domain.model.Employee;
+import com.serviceAuth.authService.employee.domain.model.EmployeeDomainEntity;
 import com.serviceAuth.authService.employee.infrastructure.outputadapter.persistence.entity.EmployeeDBEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmployeeMapper {
 
-    public Employee toDomain(EmployeeDBEntity employeeDBEntity){
+    public EmployeeDomainEntity toDomain(EmployeeDBEntity employeeDBEntity){
         if (employeeDBEntity == null) return null;
 
-        return new Employee(employeeDBEntity.getId(),
+        return new EmployeeDomainEntity(employeeDBEntity.getId(),
                 employeeDBEntity.getFullName(),
                 employeeDBEntity.getCui(),
                 employeeDBEntity.getPhone(),
@@ -22,19 +22,19 @@ public class EmployeeMapper {
                 employeeDBEntity.getRestaurantId());
     }
 
-    public EmployeeDBEntity toDBEntity(Employee employee){
+    public EmployeeDBEntity toDBEntity(EmployeeDomainEntity employee){
 
         if (employee == null) return null;
 
         return EmployeeDBEntity
                 .builder()
-                .id(employee.getId())
                 .email(employee.getEmail())
                 .cui(employee.getCui())
                 .RestaurantId(employee.getRestaurantId())
                 .address(employee.getAddress())
                 .fullName(employee.getFullName())
                 .salary(employee.getSalary())
+                .phone(employee.getPhone())
                 .jobPosition(employee.getJobPosition())
                 .HotelId(employee.getHotelId())
                 .build();

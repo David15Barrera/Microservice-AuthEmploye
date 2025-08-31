@@ -1,6 +1,6 @@
 package com.serviceAuth.authService.employee.application.usecase.dto;
 
-import com.serviceAuth.authService.employee.domain.model.Employee;
+import com.serviceAuth.authService.employee.domain.model.EmployeeDomainEntity;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 
@@ -20,8 +20,8 @@ public class CreateEmployeeDto {
     private UUID HotelId;
     private UUID RestaurantId;
 
-    public Employee toDomain(){
-        return new Employee(fullName, cui, phone, email, jobPosition, salary, address, HotelId, RestaurantId);
+    public EmployeeDomainEntity toDomain(){
+        return new EmployeeDomainEntity(fullName, cui, phone, email, jobPosition, salary, address, HotelId, RestaurantId);
     }
 
 }

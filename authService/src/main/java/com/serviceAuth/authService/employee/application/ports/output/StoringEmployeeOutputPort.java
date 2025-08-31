@@ -1,8 +1,7 @@
 package com.serviceAuth.authService.employee.application.ports.output;
 
-
-import com.serviceAuth.authService.employee.domain.model.Employee;
+import com.serviceAuth.authService.employee.domain.model.EmployeeDomainEntity;
 
 public interface StoringEmployeeOutputPort {
-    Employee save(Employee employee);
+    EmployeeDomainEntity save(EmployeeDomainEntity employee);
 }

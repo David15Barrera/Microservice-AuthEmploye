@@ -16,25 +16,25 @@ public class CreateEmployeeRequestDto {
     private final String fullName;
 
     @NotBlank
-    private String cui;
+    private final String cui;
 
     @NotBlank
-    private String phone;
+    private final String phone;
 
     @Email
-    private String email;
+    private final String email;
 
     @NotBlank
-    private String jobPosition;
+    private final String jobPosition;
 
     @Positive
-    private BigDecimal salary;
+    private final BigDecimal salary;
 
     @NotBlank
-    private String address;
+    private final String address;
 
-    private UUID hotelId;
-    private UUID restaurantId;
+    private final UUID hotelId;
+    private final UUID restaurantId;
 
     public CreateEmployeeDto toDomain() {
         return new CreateEmployeeDto(
