@@ -52,21 +52,20 @@ public class EmployeeDomainEntity {
     private void validate() {
         Objects.requireNonNull(email, "Email no puede ser nulo");
 
-        // TODO: mas validaciones de dominio.
 
         if (!jobPosition.equalsIgnoreCase("GERENTE")){
             if (this.restaurantId == null && this.hotelId == null) {
-                throw new EntityConflictUserType("El empleado debe estar asignado a un retaurante o un hotel");
+                throw new EntityConflictUserType("Asigne empleado a retaurante o un hotel");
             }
 
             if (this.restaurantId != null && this.hotelId != null) {
-                throw new EntityConflictUserType("El empleado solo puede estar asignado a un hoter o aun restaurente, no los dos a la vez");
+                throw new EntityConflictUserType("Asignar empleado a un hotel o aun restaurente, no dos a la vez");
             }
 
         }
 
         if (!(this.salary.compareTo(BigDecimal.ZERO)>0)){
-            throw new InvalidConfigurationException("El salario no debe ser mayor a cero");
+            throw new InvalidConfigurationException("El salario tiene que ser mayor a 0");
         }
     }
 

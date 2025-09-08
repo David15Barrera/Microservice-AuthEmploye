@@ -11,11 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class EmployeeRepositoryOutputAdapter implements FindingEmployeeByEmailOutputPort, FindingEmployeeByCuiOutputPort,
-        StoringEmployeeOutputPort, FindingAllEmployeesNoMangerOutputPort, FindingAllEmployeesOutputPort {
+public class EmployeeRepositoryOutputAdapter implements FindingEmployeeByEmailOutputPort,
+        FindingEmployeeByCuiOutputPort, StoringEmployeeOutputPort,
+        FindingAllEmployeesNoMangerOutputPort, FindingAllEmployeesOutputPort,
+        FindingEmployeeByIdOutputPort{
 
     private final EmployeeDBRepository employeeDBRepository;
     private final EmployeeMapper employeeMapper;
@@ -44,6 +47,12 @@ public class EmployeeRepositoryOutputAdapter implements FindingEmployeeByEmailOu
     }
 
     @Override
+    public Optional<EmployeeDomainEntity> findById(UUID id) {
+        return  this.employeeDBRepository.findById(id)
+                .map(employeeMapper::toDomain);
+    }
+
+    @Override
     public List<EmployeeDomainEntity> findAllEmployeesNoManger() {
         return this.employeeDBRepository.findAllByJobPositionNot("GERENTE")
                 .stream()
@@ -58,4 +67,6 @@ public class EmployeeRepositoryOutputAdapter implements FindingEmployeeByEmailOu
                 .map(employeeMapper::toDomain)
                 .toList();
     }
+
 }
+
