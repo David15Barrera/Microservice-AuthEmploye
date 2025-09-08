@@ -15,7 +15,6 @@ public record EmployeeResponseDto(
         String jobPosition,
         BigDecimal salary,
         String address,
-        String jobArea,
         UUID hotelId,
         UUID restaurantId
 ) {

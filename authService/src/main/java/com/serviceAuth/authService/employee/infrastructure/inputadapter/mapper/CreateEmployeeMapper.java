@@ -46,7 +46,7 @@ public class CreateEmployeeMapper {
                 .address(employee.getAddress())
                 .hotelId(employee.getHotelId())
                 .restaurantId(employee.getRestaurantId())
-                .jobArea(jobArea)
+
                 .build();
     }
 

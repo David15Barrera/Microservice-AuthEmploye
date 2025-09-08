@@ -1,16 +1,14 @@
 package com.serviceAuth.authService.employee.infrastructure.inputadapter.rest;
 
 import com.serviceAuth.authService.common.infrastructure.anotation.WebAdapter;
-import com.serviceAuth.authService.employee.application.ports.input.CreatingEmployeeInputPort;
-import com.serviceAuth.authService.employee.application.ports.input.FindingEmployeeByIdInputPort;
-import com.serviceAuth.authService.employee.application.ports.input.ListingAllEmployeesInputPort;
-import com.serviceAuth.authService.employee.application.ports.input.ListingAllEmployeesNoManagersInputPort;
+import com.serviceAuth.authService.employee.application.ports.input.*;
 import com.serviceAuth.authService.employee.application.usecase.dto.CreateEmployeeDto;
 import com.serviceAuth.authService.employee.domain.model.EmployeeDomainEntity;
 import com.serviceAuth.authService.employee.infrastructure.inputadapter.dto.CreateEmployeeRequestDto;
 import com.serviceAuth.authService.employee.infrastructure.inputadapter.dto.CreateEmployeeResponseDto;
 import com.serviceAuth.authService.employee.infrastructure.inputadapter.dto.EmployeeResponseDto;
 import com.serviceAuth.authService.employee.infrastructure.inputadapter.mapper.CreateEmployeeMapper;
+import com.serviceAuth.authService.employee.infrastructure.outputadapter.persistence.mapper.EmployeeMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,6 +30,7 @@ public class EmployeeControllerAdapter {
     private final ListingAllEmployeesNoManagersInputPort listingAllEmployeesNoManagersInputPort;
     private final ListingAllEmployeesInputPort listingAllEmployeesInputPort;
     private final FindingEmployeeByIdInputPort findingEmployeeByIdInputPort;
+    private final UpdatingEmployeeInputPort updatingEmployeeInputPort;
 
     @PostMapping()
     @Transactional
@@ -71,4 +70,23 @@ public class EmployeeControllerAdapter {
         return createEmployeeMapper.toFindResponseDto(employee);
     }
 
+    @PutMapping("/{id}")
+    public EmployeeResponseDto update(
+            @PathVariable("id") UUID id,
+            @Valid @RequestBody CreateEmployeeRequestDto req) {
+
+        return EmployeeMapper.toResponse(
+                updatingEmployeeInputPort.update(
+                        id,
+                        req.getFullName(),
+                        req.getCui(),
+                        req.getPhone(),
+                        req.getEmail(),
+                        req.getJobPosition(),
+                        req.getSalary(),
+                        req.getAddress(),
+                        req.getHotelId(),
+                        req.getRestaurantId()
+                ));
+    }
 }

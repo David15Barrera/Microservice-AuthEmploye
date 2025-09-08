@@ -19,7 +19,14 @@ public class UpdateCustomerCase implements UpdatingCustomerInputPort {
     private final FindingCustomerByCuiOutputPort findByCui;
 
     @Override
-    public CustomerDomainEntity update(UUID id, String fullName, String cui, String phone, String email, String address, Integer loyaltyPoints) {
+    public CustomerDomainEntity update(UUID id,
+                                       String fullName,
+                                       String cui,
+                                       String phone,
+                                       String email,
+                                       String address,
+                                       Integer loyaltyPoints) {
+
         CustomerDomainEntity current = findById.findById(id).orElseThrow(() -> new EntityNotFount("Customer not found"));
         if (!current.getEmail().equalsIgnoreCase(email)) {
             findByEmail.findByEmail(email).ifPresent(c -> {

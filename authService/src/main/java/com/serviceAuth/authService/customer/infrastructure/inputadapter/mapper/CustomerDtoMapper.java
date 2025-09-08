@@ -12,6 +12,12 @@ public class CustomerDtoMapper {
         return new CreateCustomerDto(req.getFullName(), req.getCui(), req.getPhone(), req.getEmail(), req.getAddress(), req.getLoyaltyPoints());
     }
     public CustomerResponseDto toResponse(CustomerDomainEntity customer) {
-        return new CustomerResponseDto(customer.getId(), customer.getFullName(), customer.getCui(), customer.getPhone(), customer.getEmail(), customer.getAddress(), customer.getLoyaltyPoints());
+        return new CustomerResponseDto(customer.getId(),
+                customer.getFullName(),
+                customer.getCui(),
+                customer.getPhone(),
+                customer.getEmail(),
+                customer.getAddress(),
+                customer.getLoyaltyPoints());
     }
 }

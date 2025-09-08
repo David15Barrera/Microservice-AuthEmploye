@@ -1,6 +1,8 @@
 package com.serviceAuth.authService.employee.infrastructure.outputadapter.persistence;
 
+import com.serviceAuth.authService.common.application.exception.EntityNotFount;
 import com.serviceAuth.authService.common.infrastructure.anotation.PersistenceAdapter;
+import com.serviceAuth.authService.employee.application.ports.input.UpdatingEmployeeInputPort;
 import com.serviceAuth.authService.employee.application.ports.output.*;
 import com.serviceAuth.authService.employee.domain.model.EmployeeDomainEntity;
 import com.serviceAuth.authService.employee.infrastructure.outputadapter.persistence.entity.EmployeeDBEntity;
@@ -9,6 +11,7 @@ import com.serviceAuth.authService.employee.infrastructure.outputadapter.persist
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,7 +21,7 @@ import java.util.UUID;
 public class EmployeeRepositoryOutputAdapter implements FindingEmployeeByEmailOutputPort,
         FindingEmployeeByCuiOutputPort, StoringEmployeeOutputPort,
         FindingAllEmployeesNoMangerOutputPort, FindingAllEmployeesOutputPort,
-        FindingEmployeeByIdOutputPort{
+        FindingEmployeeByIdOutputPort {
 
     private final EmployeeDBRepository employeeDBRepository;
     private final EmployeeMapper employeeMapper;
@@ -31,12 +34,29 @@ public class EmployeeRepositoryOutputAdapter implements FindingEmployeeByEmailOu
     }
 
     @Override
-    @Transactional
     public EmployeeDomainEntity save(EmployeeDomainEntity employee) {
+        EmployeeDBEntity dbEntity;
 
-        EmployeeDBEntity employeeDBEntity = this.employeeDBRepository.save(this.employeeMapper.toDBEntity(employee));
+        if (employee.getId() != null) {
+            dbEntity = employeeDBRepository.findById(employee.getId())
+                    .orElseThrow(() -> new RuntimeException("employee not found"));
 
-        return this.employeeMapper.toDomain(employeeDBEntity);
+            dbEntity.setFullName(employee.getFullName());
+            dbEntity.setCui(employee.getCui());
+            dbEntity.setPhone(employee.getPhone());
+            dbEntity.setEmail(employee.getEmail());
+            dbEntity.setJobPosition(employee.getJobPosition());
+            dbEntity.setSalary(employee.getSalary());
+            dbEntity.setAddress(employee.getAddress());
+            dbEntity.setHotelId(employee.getHotelId());
+            dbEntity.setRestaurantId(employee.getRestaurantId());
+
+        } else {
+            dbEntity = employeeMapper.toDBEntity(employee);
+        }
+
+        EmployeeDBEntity saved = employeeDBRepository.save(dbEntity);
+        return employeeMapper.toDomain(saved);
     }
 
     @Override

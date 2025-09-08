@@ -3,12 +3,14 @@ package com.serviceAuth.authService.employee.domain.model;
 import com.serviceAuth.authService.common.application.exception.EntityConflictUserType;
 import io.micrometer.core.instrument.config.InvalidConfigurationException;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
 @Getter
+@Setter
 public class EmployeeDomainEntity {
 
     private UUID id;
