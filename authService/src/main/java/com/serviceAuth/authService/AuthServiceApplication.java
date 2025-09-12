@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 @EnableFeignClients
 @ConfigurationPropertiesScan
-@PropertySource("file:${user.dir}/.env")
+//@PropertySource("file:${user.dir}/.env")
 public class AuthServiceApplication {
 
 	public static void main(String[] args) {
